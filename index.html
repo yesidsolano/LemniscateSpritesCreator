@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>STEM LAB Sprites Creator</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="mark">∞</div><div><b>STEM LAB</b><span>SPRITES CREATOR</span></div></div>
+  <div class="tagline"><b>Create. Animate. Play.</b><small>Design your own pixel-art sprites for Scratch.</small></div>
+  <div class="actions"><button id="newBtn">New Project</button><button id="saveBtn">Save Project</button><label class="fileBtn">Open Project<input id="openFile" type="file" accept=".json"></label><button id="exportBtn" class="primary">Export</button><button id="helpBtn" class="round">?</button></div>
+</header>
+
+<main>
+<section id="welcome" class="screen">
+ <div class="card welcome">
+  <div class="badge">✦ PIXEL ART LAB ✦</div><h1>Welcome, Pixel Artist! 🎨</h1>
+  <p>Create your first video game Sprite, one pixel at a time.</p>
+  <div class="choices">
+   <button class="choice" data-start="empty"><strong>🧩 Create a Sprite</strong><small>Start with an empty canvas.</small></button>
+   <button class="choice" data-start="template"><strong>🤖 Try a Template</strong><small>Choose a beginner-friendly Sprite.</small></button>
+   <label class="choice"><strong>📂 Open Project</strong><small>Load a saved project.</small><input id="welcomeFile" type="file" accept=".json"></label>
+  </div>
+  <button id="startBtn" class="primary big">START CREATING</button>
+ </div>
+</section>
+
+<section id="sizes" class="screen hidden">
+ <div class="card sizeCard">
+  <h2>Choose your canvas</h2><p>Each little square is one pixel.</p>
+  <div class="sizes">
+   <button data-size="8">8 × 8<small>Quick & tiny</small></button>
+   <button data-size="16" class="selected">16 × 16<small>Perfect for beginners ⭐</small></button>
+   <button data-size="32">32 × 32<small>More detail</small></button>
+   <button data-size="64">64 × 64<small>Pixel master</small></button>
+  </div>
+  <div id="sizePreview" class="sizePreview"></div>
+  <button id="openLab" class="primary big">OPEN THE LAB →</button>
+ </div>
+</section>
+
+<section id="editor" class="hidden">
+<div class="editor">
+<aside class="panel tools">
+ <h3>TOOLS</h3><div class="toolGrid">
+  <button class="tool active" data-tool="pencil">✏️<small>Pencil</small></button>
+  <button class="tool" data-tool="eraser">🧽<small>Eraser</small></button>
+  <button class="tool" data-tool="fill">🪣<small>Fill</small></button>
+  <button class="tool" data-tool="picker">🎨<small>Picker</small></button>
+ </div>
+ <div class="twins"><button id="undo">↩ Undo</button><button id="redo">↪ Redo</button></div>
+ <button id="clear" class="wide danger">🗑 Clear Canvas</button>
+ <h3>COLORS</h3><div id="palette" class="palette"></div>
+ <label class="custom">Custom Color <input id="color" type="color" value="#111111"></label>
+ <div class="selected"><i id="swatch"></i><span id="hex">#111111</span></div>
+ <h3>MY COLORS</h3><div id="myColors" class="myColors"></div><button id="saveColor" class="wide">＋ Save Current Color</button>
+ <h3>VIEW</h3>
+ <label class="check"><input id="grid" type="checkbox" checked> Grid ON</label>
+ <label class="check"><input id="learn" type="checkbox"> 🎓 Learning Mode</label>
+ <label class="check"><input id="onion" type="checkbox"> 👻 Onion Skin</label>
+</aside>
+
+<section class="panel canvasPanel">
+ <div class="canvasHead"><div><small>YOUR CANVAS</small><b id="canvasLabel">16 × 16</b></div><div class="zoom"><button id="zoomOut">−</button><span id="zoomLabel">100%</span><button id="zoomIn">+</button></div></div>
+ <div id="canvasWrap"><canvas id="canvas"></canvas></div>
+ <div id="hint" class="hint hidden"></div>
+ <div class="challenge">🎯 <b>PIXEL CHALLENGE:</b> <span id="challengeText">Create a character using only 4 colors.</span><button id="challengeBtn">New Challenge</button></div>
+</section>
+
+<aside class="panel preview">
+ <h3>YOUR SPRITE</h3><div class="previewBox"><canvas id="preview"></canvas></div>
+ <div class="twins"><button id="previewGrid">Grid OFF</button><button id="play">▶ PLAY</button></div>
+ <h3>SPRITE INFO</h3>
+ <label>Sprite Name<input id="spriteName" placeholder="My Awesome Sprite"></label>
+ <label>Character Type<select id="type"><option>Hero</option><option>Animal</option><option>Robot</option><option>Monster</option><option>Object</option><option>Other</option></select></label>
+ <label>Special Power<input id="power" placeholder="Super jump!"></label>
+ <h3>FPS</h3><div id="fps" class="fps"></div><label class="check"><input id="loop" type="checkbox" checked> Loop animation</label>
+ <h3>TEMPLATES</h3><div id="templates" class="templates"></div>
+</aside>
+</div>
+
+<section class="panel timelinePanel">
+ <div class="timelineHead"><div><small>ANIMATION</small><b id="frameCount">Frame 1 / 1</b></div>
+ <div class="timelineActions"><button id="add">＋ Add Frame</button><button id="duplicate">Duplicate</button><button id="delete">Delete</button><button id="left">←</button><button id="right">→</button></div></div>
+ <div id="timeline" class="timeline"></div>
+</section>
+</section>
+</main>
+
+<footer><b>STEM LAB SPRITES CREATOR</b> · Create. Animate. Play. · A Lemniscate Solutions learning experience.<br><small>Developed by Ing. Yesid Solano & Team</small></footer>
+
+<dialog id="exportDialog"><div class="modal"><button class="close" data-close="exportDialog">×</button><h2>Export your creation 🚀</h2>
+<button class="option" id="png">🖼 Export PNG<small>Current Sprite with transparency</small></button>
+<button class="option" id="gif">🎞 Export GIF<small>Animated GIF</small></button>
+<button class="option" id="frames">🗂 Export Frames<small>Each frame as PNG</small></button>
+<button class="option" id="sheet">▦ Export Sprite Sheet<small>All frames in one image</small></button></div></dialog>
+
+<dialog id="helpDialog"><div class="modal"><button class="close" data-close="helpDialog">×</button><h2>Pixel Artist Guide 🎓</h2>
+<p><b>Sprite:</b> A character or object we can program in a video game.</p><p><b>Pixel:</b> A tiny square that helps us build our digital drawing.</p><p><b>Frame:</b> One picture in an animation.</p><p><b>Animation:</b> A sequence of pictures that creates the illusion of movement.</p><hr><p><b>Shortcuts:</b> P Pencil · E Eraser · F Fill · I Picker · Ctrl/Cmd+Z Undo · Ctrl/Cmd+Shift+Z Redo</p></div></dialog>
+<div id="toast"></div>
+<script src="js/app.js"></script>
+</body></html>
