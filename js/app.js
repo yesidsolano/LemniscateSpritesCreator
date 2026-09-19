@@ -57,3 +57,89 @@ $("#png").onclick=exportPNG;$("#frames").onclick=exportFrames;$("#sheet").onclic
 document.addEventListener("keydown",e=>{if(["INPUT","SELECT","TEXTAREA"].includes(document.activeElement.tagName))return;let k=e.key.toLowerCase();if((e.ctrlKey||e.metaKey)&&k==="z"){e.preventDefault();e.shiftKey?redo():undo()}else if(k==="p")S.tool="pencil";else if(k==="e")S.tool="eraser";else if(k==="f")S.tool="fill";else if(k==="i")S.tool="picker";setTools()});
 window.onresize=()=>!$("#editor").classList.contains("hidden")&&renderCanvas();
 renderSize();$("#fps").innerHTML=[1,2,4,6,8,12].map(n=>`<button class="${n===6?"active":""}" data-f="${n}">${n}</button>`).join("");renderFPS();
+
+/* =========================================
+   PANTALLA COMPLETA
+   Lemniscate Sprites Creator
+   ========================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+    // Si el botón no existe, no hacemos nada
+    if (!fullscreenBtn) {
+        return;
+    }
+
+    /**
+     * Actualiza el aspecto y la información
+     * del botón según el estado actual.
+     */
+    function actualizarBotonFullscreen() {
+
+        if (document.fullscreenElement) {
+
+            // Estamos en pantalla completa
+            fullscreenBtn.textContent = "✕";
+            fullscreenBtn.title = "Salir de pantalla completa";
+            fullscreenBtn.setAttribute(
+                "aria-label",
+                "Salir de pantalla completa"
+            );
+
+        } else {
+
+            // Estamos en modo normal
+            fullscreenBtn.textContent = "⛶";
+            fullscreenBtn.title = "Pantalla completa";
+            fullscreenBtn.setAttribute(
+                "aria-label",
+                "Activar pantalla completa"
+            );
+        }
+    }
+
+    /**
+     * Activa o desactiva pantalla completa.
+     */
+    async function alternarFullscreen() {
+
+        try {
+
+            if (!document.fullscreenElement) {
+
+                await document.documentElement.requestFullscreen();
+
+            } else {
+
+                await document.exitFullscreen();
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "No fue posible cambiar a pantalla completa:",
+                error
+            );
+
+        }
+    }
+
+    // Evento del botón
+    fullscreenBtn.addEventListener(
+        "click",
+        alternarFullscreen
+    );
+
+    // Detectar cambios de pantalla completa
+    document.addEventListener(
+        "fullscreenchange",
+        actualizarBotonFullscreen
+    );
+
+    // Estado inicial
+    actualizarBotonFullscreen();
+
+});
